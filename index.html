@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WWII in the Philippines - Interactive Infographic</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>World War II in the Philippines</h1>
+  <nav>
+    <a href="#overview">Overview</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#articles">Articles</a>
+    <a href="#group members">Group members</a>
+    <a href="#reflection">Reflection</a>
+  </nav>
+</header>
+
+<!-- Overview -->
+<section id="overview">
+  <h2>Overview</h2>
+  <p>This interactive infographic explores the major events of World War II in the Philippines. Click on timeline events or gallery images to learn more about the history, and read short articles to understand the impact of these events.</p>
+</section>
+
+<!-- Timeline -->
+<section id="timeline">
+  <h2>Timeline of Events</h2>
+  <canvas id="timelineChart" width="800" height="400"></canvas>
+  <div class="timeline-content">
+    <h3 id="eventTitle">Click a date on the chart to see details</h3>
+    <p id="eventDescription">Event details will appear here.</p>
+    <img id="eventImage" src="" alt="" style="display:none; max-width:100%; border-radius:5px; margin-top:1rem;">
+  </div>
+</section>
+
+<!-- Gallery -->
+<section id="gallery">
+  <h2>Primary Source Gallery</h2>
+  <div class="gallery-grid">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Photograph_of_American_Prisoners_Using_Improvised_Litters_to_Carry_Comrades%2C_05-1942_-_NARA_-_535564.jpg/1280px-Photograph_of_American_Prisoners_Using_Improvised_Litters_to_Carry_Comrades%2C_05-1942_-_NARA_-_535564.jpg" alt="Bataan Death March" class="gallery-item">
+    <img src="https://upload.wikimedia.org/wikipedia/en/1/1d/Filipino_Guerrillas_Under_Captain_Jesus_Olmedo_Come_Out_To_Meet_7th_Division_Command_Post_For_Conference_With_Major_General_A.V._Arnold_Cropped.jpg" alt="Filipino Guerrilla" class="gallery-item">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Douglas_MacArthur_lands_Leyte1.jpg" alt="Douglas MacArthur" class="gallery-item">
+  </div>
+</section>
+
+<!-- Articles -->
+<section id="articles">
+  <h2>Articles</h2>
+  <div class="articles-grid">
+    <div class="article-card" id="article0">
+      <h3>Japanese Occupation</h3>
+      <p>The Japanese occupied the Philippines from 1942 to 1945, imposing strict control and affecting civilians' daily lives.</p>
+    </div>
+    <div class="article-card" id="article1">
+      <h3>Bataan Death March</h3>
+      <p>Thousands of Filipino and American soldiers were forced to march under brutal conditions after the fall of Bataan, causing high casualties.</p>
+    </div>
+    <div class="article-card" id="article2">
+      <h3>Leyte Landing</h3>
+      <p>General Douglas MacArthur returned to liberate the Philippines, marking the start of Japan's defeat in the islands.</p>
+    </div>
+    <div class="article-card" id="article3">
+      <h3>Liberation of Manila</h3>
+      <p>After intense battles, Manila was liberated from Japanese forces, restoring freedom to the city.</p>
+    </div>
+    <div class="article-card" id="article4">
+      <h3>End of WWII</h3>
+      <p>Japan surrendered, officially ending World War II in the Philippines in September 1945.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Team Members -->
+<section id="group members">
+  <h2>Group Members</h2>
+  <ul class="team-list">
+    <li>Renald Acosta (Project Lead)</li>
+    <li>Maria Santos</li>
+    <li>Juan Dela Cruz</li>
+    <li>Angela Reyes</li>
+    <li>Mark Tan</li>
+    <li>Liza Velasco</li>
+    <li>Patrick Lim</li>
+    <li>Carmela Bautista</li>
+    <li>Jose Ramos</li>
+    <li>Clara Villanueva</li>
+  </ul>
+</section>
+
+<!-- Reflection -->
+<section id="reflection">
+  <h2>Reflection</h2>
+  <p>This project combined historical research with modern web development. Using timelines, galleries, and articles helped visualize WWII events in the Philippines. Collaborating as a team improved research, coding, and design skills.</p>
+</section>
+
+<footer>
+  <p>Interactive Infographic | BS IT | 2026</p>
+</footer>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox">
+  <span id="closeLightbox">&times;</span>
+  <img class="lightbox-content" id="lightboxImg">
+  <div id="caption"></div>
+</div>
+
+<!-- Scripts -->
+<script>
+// Timeline Data
+const timelineEvents = [
+  {label:'Dec 1941', impact:5, title:'Japanese Invasion', description:'Japan attacks the Philippines, starting the occupation.', image:'https://upload.wikimedia.org/wikipedia/commons/4/4b/Bataan_death_march.jpg', article:0},
+  {label:'Apr 1942', impact:20, title:'Fall of Bataan', description:'Thousands of Filipino and American soldiers surrender.', image:'https://upload.wikimedia.org/wikipedia/commons/0/03/Filipino_guerrilla_WWII.jpg', article:1},
+  {label:'Oct 1944', impact:50, title:'Leyte Landing', description:'General Douglas MacArthur returns.', image:'https://upload.wikimedia.org/wikipedia/commons/8/81/Douglas_MacArthur.png', article:2},
+  {label:'Feb 1945', impact:70, title:'Liberation of Manila', description:'Manila is liberated after intense fighting.', image:'', article:3},
+  {label:'Sep 1945', impact:100, title:'End of WWII', description:'Japan surrenders.', image:'', article:4}
+];
+
+// Timeline Chart
+const ctx = document.getElementById('timelineChart').getContext('2d');
+const labels = timelineEvents.map(e => e.label);
+const dataPoints = timelineEvents.map(e => e.impact);
+
+const timelineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [{
+      label: 'Events',
+      data: dataPoints,
+      borderColor: 'rgb(13,59,102)',
+      backgroundColor: 'rgba(13,59,102,0.2)',
+      tension: 0.3,
+      pointRadius: 7,
+      pointHoverRadius: 10
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    onClick: (evt, elements) => { if(elements.length>0) showTimelineEvent(elements[0].index); },
+    scales: {
+      y: { beginAtZero: true, title: { display: true, text: 'Impact Scale' } },
+      x: { title: { display: true, text: 'Timeline' } }
+    }
+  }
+});
+
+// Show Timeline Event
+function showTimelineEvent(index){
+  const event = timelineEvents[index];
+  document.getElementById('eventTitle').innerText = event.title;
+  document.getElementById('eventDescription').innerText = event.description;
+
+  const img = document.getElementById('eventImage');
+  if(event.image){ img.src = event.image; img.style.display='block'; } 
+  else { img.style.display='none'; }
+
+  document.querySelectorAll('.article-card').forEach(card => card.style.border='1px solid #ccc');
+  const articleCard = document.getElementById('article'+event.article);
+  articleCard.style.border='3px solid #0d3b66';
+  articleCard.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+// Gallery Lightbox
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const caption = document.getElementById('caption');
+document.querySelectorAll('.gallery-item').forEach(img => {
+  img.addEventListener('click', () => {
+    lightbox.style.display = 'block';
+    lightboxImg.src = img.src;
+    caption.innerText = img.alt;
+  });
+});
+
+document.getElementById('closeLightbox').onclick = () => {
+  lightbox.style.display = 'none';
+};
+</script>
+
+</body>
+</html>
